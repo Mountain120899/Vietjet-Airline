@@ -1,0 +1,11 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^2.4",
+        "mongodb/mongodb": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    }
+}
