@@ -1,0 +1,12 @@
+.home{
+    margin-top: 50px;
+}
+
+.home .NgayDi{
+    margin-left: 50px;
+}
+
+.home .SanBayDen{
+    display: block;
+    margin-top: 20px;
+}
