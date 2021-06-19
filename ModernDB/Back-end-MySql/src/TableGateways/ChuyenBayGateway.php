@@ -18,7 +18,7 @@ class ChuyenBayGateway {
             where	SanBayDi	    = :SanBayDi
             and		SanBayDen	    = :SanBayDen
             and		Date(GioBay)	= :GioBay
-            order by GioBay, GiaVe
+            order by GiaVe, GioBay
         ";
 
         try {
@@ -35,5 +35,44 @@ class ChuyenBayGateway {
         }    
     }
 
-    
+    public function findone($id)
+    {
+        $statement = "SELECT
+                        *
+                    FROM
+                        ChuyenBay
+                    WHERE 
+                        id = ?
+                    ";
+
+        try {
+            $statement = $this->db->prepare($statement);
+            $statement->execute(array($id));
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }    
+    }
+
+    public function update($id, Array $input)
+    {
+        $statement = "
+            UPDATE ChuyenBay
+            SET 
+                SoGheConLai = :SoGheConLai
+            WHERE id = :id;
+        ";
+
+        try {
+            $statement = $this->db->prepare($statement);
+            $statement->execute(array(
+                'id' => (int) $id,
+                'SoGheConLai' => $input['SoGheConLai']
+            ));
+            return $statement->rowCount();
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }    
+    }
 }
