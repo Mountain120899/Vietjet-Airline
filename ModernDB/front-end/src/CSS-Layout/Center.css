@@ -1,12 +1,104 @@
 .home{
     margin-top: 50px;
+    margin-left: 20px;
 }
 
 .home .NgayDi{
     margin-left: 50px;
 }
 
+.home label{
+    margin-right: 5px;
+}
+
 .home .SanBayDen{
     display: block;
     margin-top: 20px;
+}
+
+.home .KetQua{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
+
+.home .KetQua td, th{
+    border: 2px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+.home .KetQua tr:nth-child(even) {
+    background-color: #943c3c;
+    color: wheat;
+}
+
+.home > form > input[type="button"] {
+    margin: 10px;
+    background-color: greenyellow;
+    color: rgb(26, 13, 13);
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+.KetQua input {
+    font-size: 20px;
+}
+
+.SoHanhKhach{
+    font-size: 20px;
+    display: block;
+    position: relative;
+    left:10px;
+}
+
+.SoHanhKhach > label{
+    margin-right: 5px;
+}
+
+.SoHanhKhach > button{
+    font-size: 18px;
+    background-color: rgba(0, 102, 255, 0.781);
+    color: seashell;
+}
+
+.SoHanhKhach > button:hover{
+    color: red;
+    cursor: pointer;
+}
+
+.Information{
+    position: relative;
+    left:400px;
+    border:2px red dotted;
+    margin-top: 20px;
+    display: block;
+    padding: 5px;
+    width:fit-content
+}
+
+.Information input{
+    font-size: larger;
+}
+
+#XacNhanMuaVe{
+    font-size: 35px;
+    position: relative;
+    margin-left: 800px;
+    margin-top: 25px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#XacNhanMuaVe:hover{
+    background-color: red;
+}
+
+.LamThuTucNhanh {
+    display: block;
+    margin-top: 10px;
 }

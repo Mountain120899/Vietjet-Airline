@@ -3,6 +3,8 @@
     //use Src\Controller\ThongTinController;
     require "../src/Controller/ThongTinController.php";
     require "../src/TableGateways/ThongTinGateway.php";
+    require "../src/TableGateways/DatChoGateway.php";
+    require "../src/Controller/DatChoController.php";
 
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
@@ -20,12 +22,13 @@
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = explode('/', $uri);
 
-    if ($uri[1] !== 'ThongTin'){
+    if ($uri[1] !== 'ThongTin' && $uri[1] !== 'DatCho'){
         header("HTTP/1.1 404 not found");
         exit();
     }
 
     $ThongTinId = null;
+    $MaDatCho = null;
     $requestMethod = $_SERVER['REQUEST_METHOD'];
 
     if ($uri[1] == 'ThongTin'){
@@ -33,6 +36,13 @@
             $ThongTinId = (int) $uri[2];
         }
         $controller = new ThongTinController($dbConnection, $requestMethod, $ThongTinId);
+    }
+
+    if ($uri[1] == 'DatCho'){
+        if (isset($uri[2])){
+            $MaDatCho = $uri[2];
+        }
+        $controller = new DatChoController($dbConnection, $requestMethod, $MaDatCho);
     }
     $controller->processRequest();
 
