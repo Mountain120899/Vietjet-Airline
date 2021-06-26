@@ -2,6 +2,9 @@
 require "../bootstrap.php";
 use Src\Controller\ChuyenBayController;
 use Src\Controller\SanBayController;
+use Src\Controller\DiaDiemController;
+use Src\Controller\ChuyenXeController;
+use Src\Controller\DatXeController;
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: *');
@@ -23,13 +26,17 @@ $uri = explode( '/', $uri );
 // all of our endpoints start with /ChuyenBay
 // everything else results in a 404 Not Found
 if ($uri[1] !== 'ChuyenBay' && $uri[1] !== 'SanBay') {
-    header("HTTP/1.1 404 Not Found");
-    exit();
+    if($uri[1] !== 'DiaDiem' && $uri[1] !== 'ChuyenXe' && $uri[1] !== 'DatXe') {
+        header("HTTP/1.1 404 Not Found");
+        exit();
+    }
 }
 
 $requestMethod      = $_SERVER["REQUEST_METHOD"];
 $ChuyenBayId        = null;
+$ChuyenXeId        = null;
 $OptionSanBayId     = null;
+$OptionDiaDiemId     = null;
 
 if ($uri[1] == 'ChuyenBay'){
     if (isset($uri[2])){
@@ -46,6 +53,26 @@ if ($uri[1] == 'SanBay') {
     }
     $controller = new SanBayController($dbConnection, $requestMethod, $OptionSanBayId);
 }
-// pass the request method and user ID to the ChuyenBayController and process the HTTP request:
+
+if ($uri[1] == 'DiaDiem') {
+    if (isset($uri[2])){
+            
+        $OptionDiaDiemId = $uri[2];
+    }
+    $controller = new DiaDiemController($dbConnection, $requestMethod, $OptionDiaDiemId);
+}
+
+if ($uri[1] == 'ChuyenXe') {
+    if (isset($uri[2])){
+            
+        $ChuyenXeId = $uri[2];
+    }
+    $controller = new ChuyenXeController($dbConnection, $requestMethod, $ChuyenXeId);
+}
+
+if ($uri[1] == 'DatXe') {
+    $controller = new DatXeController($dbConnection, $requestMethod);
+}
+
 
 $controller->processRequest();
