@@ -41,6 +41,7 @@
     color: rgb(26, 13, 13);
     font-size: 25px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .KetQua input {
@@ -101,4 +102,131 @@
 .LamThuTucNhanh {
     display: block;
     margin-top: 10px;
+}
+
+#TraCuu{
+    margin-left: 10px;
+    font-size: 20px;
+    background-color: greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#MuaThemHanhLy{
+    margin-left: 10px;
+    font-size: 20px;
+    background-color: greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Flight table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
+
+.Flight table td, th{
+    border: 2px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+.Flight table tr:nth-child(even) {
+    background-color: #943c3c;
+    color: wheat;
+}
+
+.Ticket table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
+
+.Ticket table td, th{
+    border: 2px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+.Ticket table tr:nth-child(even) {
+    background-color: #943c3c;
+    color: wheat;
+}
+
+.FlightServices {
+    position: relative;
+    left: 1050px;
+}
+
+.FlightServices a {
+    text-decoration: none;
+    margin: 20px;
+    color: rgb(0, 17, 255);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.FlightServices a:hover {
+    color: red;   
+}
+
+#promote{
+    position: relative;
+    left:50px;
+    width: 95%;
+}
+
+.bookcar{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.bookcar label{
+    margin-right: 5px;
+}
+
+.bookcar .NoiDen{
+    display: block;
+    margin-top: 20px;
+}
+
+.bookcar .KetQuaDatXe{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 65%;
+    margin: auto;
+}
+
+.bookcar .KetQuaDatXe td, th{
+    border: 2px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+.bookcar .KetQuaDatXe tr:nth-child(n) {
+    background-color: #943c3c;
+    color: wheat;
+}
+
+.bookcar > form > input[type="button"] {
+    margin: 10px;
+    background-color: greenyellow;
+    color: rgb(26, 13, 13);
+    font-size: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.KetQuaDatXe input {
+    font-size: 20px;
+}
+
+.ThongTinDatXe{
+    margin-bottom: 20px;
 }
