@@ -19,9 +19,9 @@
             }
         }
 
-        public function find($id){
+        public function find($ChuDe){
             try{
-                $filter = ['id' => $id];
+                $filter = ['ChuDe' => $ChuDe];
                 $option = [];
                 $read = new MongoDB\Driver\Query($filter, $option);
                 $result = $this->db->executeQuery("$this->dbname.$this->collection", $read);

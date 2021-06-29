@@ -2,14 +2,14 @@
     class ThongTinController{
         private $db;
         private $requestMethod;
-        private $id;
+        private $ChuDe;
 
         private $ThongTinGateway;
 
-        public function __construct($db, $requestMethod, $ThongTinId){
+        public function __construct($db, $requestMethod, $ChuDe){
             $this->db = $db;
             $this->requestMethod = $requestMethod;
-            $this->id = $ThongTinId;
+            $this->ChuDe = $ChuDe;
 
             $this->ThongTinGateway = new ThongTinGateway($db);
         }
@@ -17,8 +17,8 @@
         public function processRequest(){
             switch($this->requestMethod){
                 case 'GET':
-                    if($this->id){
-                        $response = $this->getThongTin($this->id);
+                    if($this->ChuDe){
+                        $response = $this->getThongTin($this->ChuDe);
                     } else{
                         $response = $this->getAllThongTins();
                     };
@@ -50,8 +50,8 @@
             return $response;
         }
 
-        private function getThongTin($id){
-            $result = $this->ThongTinGateway->find($id);
+        private function getThongTin($ChuDe){
+            $result = $this->ThongTinGateway->find($ChuDe);
             if (! $result) {
                 return $this->notFoundResponse();
             }

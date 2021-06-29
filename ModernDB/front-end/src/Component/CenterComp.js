@@ -647,9 +647,58 @@ export function FlightServices(){
 }
 
 export function SearchInformation(){
+    var [Data, setData] = useState([]);
+    var [Condition, setCondition] = useState();
+    async function getThongTin(data) {
+        try{
+            const response = await fetch("http://localhost:7000/ThongTin/" + data);
+            const json = await response.json();
+            setData(json);
+          }
+          catch{
+            console.log("Lỗi URL");
+        }
+    }
+
+    useEffect(() => {
+        var array = document.getElementsByClassName("ThongTin");
+        for (let i = 0; i < array.length; i++) {
+            array[i].innerHTML = "";
+        };
+        if (Data.length > 0) {
+            var temp = "";
+            for (let i = 0; i < Data.length; i++) {
+                temp += Data[i].NoiDung;
+            } 
+            document.getElementById(Condition).innerHTML = temp;
+        }
+    }, [Data]);
+
+    const ThongTin = (ChuDe) => {
+        setCondition(ChuDe);
+        getThongTin(ChuDe);
+    }
+
     return (
-        <div>
-            Tra cứu thông tin
+        <div className = "TraCuuThongTin">
+            <ol>
+                <li>
+                    <p className = "ChuDe" onClick = {() => ThongTin("GiayToTuyThab")}>Giấy tờ đi máy bay</p>
+                    <p className = "ThongTin" id = "GiayToTuyThab"></p>
+                </li>
+                <li>
+                    <p className = "ChuDe" onClick = {() => ThongTin("DichVuHanhLy")}>Dịch vụ hành lý</p>
+                    <p className = "ThongTin" id = "DichVuHanhLy"></p>
+                </li>
+                <li>
+                    <p className = "ChuDe" onClick = {() => ThongTin("DichVuDacBiet")}>Dịch vụ đặc biệt</p>
+                    <p className = "ThongTin" id = "DichVuDacBiet"></p>
+                </li>
+                <li>
+                    <p className = "ChuDe" onClick = {() => ThongTin("ChinhSachHoanVe")}>Chính sách hoàn vé</p>
+                    <p className = "ThongTin" id = "ChinhSachHoanVe"></p>
+                </li>
+            </ol>
         </div>
     )
 }
