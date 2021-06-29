@@ -230,3 +230,15 @@
 .ThongTinDatXe{
     margin-bottom: 20px;
 }
+
+.TraCuuThongTin ol {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.ChuDe {
+    font-size: 25px;
+    font-weight: 200px;
+    color: rgb(0, 19, 128);
+}

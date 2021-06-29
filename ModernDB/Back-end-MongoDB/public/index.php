@@ -27,15 +27,15 @@
         exit();
     }
 
-    $ThongTinId = null;
+    $ChuDe = null;
     $MaDatCho = null;
     $requestMethod = $_SERVER['REQUEST_METHOD'];
 
     if ($uri[1] == 'ThongTin'){
         if (isset($uri[2])){
-            $ThongTinId = (int) $uri[2];
+            $ChuDe = $uri[2];
         }
-        $controller = new ThongTinController($dbConnection, $requestMethod, $ThongTinId);
+        $controller = new ThongTinController($dbConnection, $requestMethod, $ChuDe);
     }
 
     if ($uri[1] == 'DatCho'){
