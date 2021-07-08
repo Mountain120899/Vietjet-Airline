@@ -23,56 +23,58 @@ header('Content-Type: application/json');
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
-// all of our endpoints start with /ChuyenBay
-// everything else results in a 404 Not Found
-if ($uri[1] !== 'ChuyenBay' && $uri[1] !== 'SanBay') {
-    if($uri[1] !== 'DiaDiem' && $uri[1] !== 'ChuyenXe' && $uri[1] !== 'DatXe') {
+$requestMethod      = $_SERVER["REQUEST_METHOD"];
+$ChuyenBayId        = null;
+$ChuyenXeId         = null;
+$OptionSanBayId     = null;
+$OptionDiaDiemId    = null;
+$MaDatXe            = null;
+
+switch($uri[1]){
+    case 'ChuyenBay': {
+        if (isset($uri[2])){
+            
+            $ChuyenBayId = $uri[2];
+        }
+        $controller = new ChuyenBayController($dbConnection, $requestMethod, $ChuyenBayId);
+        break;
+    }
+    case 'SanBay': {
+        if (isset($uri[2])){
+            
+            $OptionSanBayId = $uri[2];
+        }
+        $controller = new SanBayController($dbConnection, $requestMethod, $OptionSanBayId);
+        break;
+    }
+    case 'DiaDiem': {
+        if (isset($uri[2])){
+            
+            $OptionDiaDiemId = $uri[2];
+        }
+        $controller = new DiaDiemController($dbConnection, $requestMethod, $OptionDiaDiemId);
+        break;
+    }
+    case 'ChuyenXe': {
+        if (isset($uri[2])){
+            
+            $ChuyenXeId = $uri[2];
+        }
+        $controller = new ChuyenXeController($dbConnection, $requestMethod, $ChuyenXeId);
+        break;
+    }
+    case 'DatXe': {
+        if (isset($uri[2])){
+            
+            $MaDatXe = $uri[2];
+        }
+        $controller = new DatXeController($dbConnection, $requestMethod, $MaDatXe);
+        break;
+    }
+    default: {
         header("HTTP/1.1 404 Not Found");
         exit();
     }
 }
-
-$requestMethod      = $_SERVER["REQUEST_METHOD"];
-$ChuyenBayId        = null;
-$ChuyenXeId        = null;
-$OptionSanBayId     = null;
-$OptionDiaDiemId     = null;
-
-if ($uri[1] == 'ChuyenBay'){
-    if (isset($uri[2])){
-            
-        $ChuyenBayId = $uri[2];
-    }
-    $controller = new ChuyenBayController($dbConnection, $requestMethod, $ChuyenBayId);
-}
-
-if ($uri[1] == 'SanBay') {
-    if (isset($uri[2])){
-            
-        $OptionSanBayId = $uri[2];
-    }
-    $controller = new SanBayController($dbConnection, $requestMethod, $OptionSanBayId);
-}
-
-if ($uri[1] == 'DiaDiem') {
-    if (isset($uri[2])){
-            
-        $OptionDiaDiemId = $uri[2];
-    }
-    $controller = new DiaDiemController($dbConnection, $requestMethod, $OptionDiaDiemId);
-}
-
-if ($uri[1] == 'ChuyenXe') {
-    if (isset($uri[2])){
-            
-        $ChuyenXeId = $uri[2];
-    }
-    $controller = new ChuyenXeController($dbConnection, $requestMethod, $ChuyenXeId);
-}
-
-if ($uri[1] == 'DatXe') {
-    $controller = new DatXeController($dbConnection, $requestMethod);
-}
-
 
 $controller->processRequest();

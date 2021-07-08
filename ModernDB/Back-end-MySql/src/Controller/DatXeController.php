@@ -7,13 +7,15 @@ class DatXeController {
 
     private $db;
     private $requestMethod;
+    private $MaDatXe;
 
     private $DatXeGateway;
 
-    public function __construct($db, $requestMethod)
+    public function __construct($db, $requestMethod, $MaDatXe)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
+        $this->MaDatXe       = $MaDatXe;
 
         $this->DatXeGateway = new DatXeGateway($db);
     }
@@ -22,7 +24,12 @@ class DatXeController {
     {
         switch ($this->requestMethod) {
             case 'GET':
-                $response = $this->getAllThongTinDatXe();
+                if($this->MaDatXe) {
+                    $response = $this->getOneThongTinDatXe($this->MaDatXe);
+                }
+                else {
+                    $response = $this->getAllThongTinDatXe();
+                }
                 break;
             case 'POST':
                 $response = $this->createDatXeFromRequest();
@@ -40,6 +47,14 @@ class DatXeController {
     private function getAllThongTinDatXe()
     {
         $result = $this->DatXeGateway->findAll();
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        return $response;
+    }
+
+    private function getOneThongTinDatXe($MaDatXe)
+    {
+        $result = $this->DatXeGateway->findOne($MaDatXe);
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
         return $response;

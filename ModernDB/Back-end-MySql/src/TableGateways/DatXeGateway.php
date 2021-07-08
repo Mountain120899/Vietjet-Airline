@@ -16,7 +16,7 @@ class DatXeGateway {
             SELECT 
                 *
             FROM
-            ThongTinDatXe;
+                ThongTinDatXe;
         ";
 
         try {
@@ -26,6 +26,26 @@ class DatXeGateway {
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
+    }
+
+    public function findOne($id)
+    {
+        $statement = "SELECT
+                        *
+                    FROM
+                        ThongTinDatXe
+                    WHERE 
+                        MaDatXe = ?
+                    ";
+
+        try {
+            $statement = $this->db->prepare($statement);
+            $statement->execute(array($id));
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }    
     }
 
     public function insert(Array $input)
