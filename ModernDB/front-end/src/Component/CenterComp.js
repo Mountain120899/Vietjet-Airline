@@ -491,7 +491,6 @@ export function MyFlight(){
                     </tbody>
                 </table>
             </div>
-            <button style={{fontSize:"20px", margin:"20px"}}>Đổi vé</button>
             <NavLink to='/buyLuggage'>
                 <button style={{fontSize:"20px", margin:"20px"}}>Mua thêm hành lý</button>
             </NavLink>
@@ -810,7 +809,7 @@ export function BookCar(){
         var SoDienThoai = document.getElementById("SoDienThoai").value;
         var SoLuong = document.getElementById("SoLuong").value;
         var id = activeChuyenXe.id;
-        var Gia = activeChuyenXe.Gia;
+        var Gia = GiaVe;
         var MaDatXe = HoTen.slice(0,3) + id + SoDienThoai;
         if (HoTen === "" || SoDienThoai === "")
         {
