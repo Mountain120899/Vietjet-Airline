@@ -625,9 +625,140 @@ export function BuyLuggage(){
 }
 
 export function CheckIn(){
+
+    const [status, setStatus] = useState(false);
+
+    async function createCheckIn(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    function CheckIn(e){
+        e.preventDefault();
+        var hoTen = document.getElementById("hoten").value;
+        var tuoi = document.getElementById("tuoi").value;
+        var hanhLy = document.getElementsByClassName("HanhLy")[0].value;
+        var gioiTinh;
+        var xuatAn;
+        var gioiTinhArray = document.getElementsByName('gender');
+        var xuatAnArray = document.getElementsByName('XuatAn');
+        for (let j = 0 ; j < gioiTinhArray.length; j++) {
+            if (gioiTinhArray[j].checked) {
+                gioiTinh    = gioiTinhArray[j].value;
+            }
+        }
+        for (let j = 0 ; j < xuatAnArray.length; j++) {
+            if (xuatAnArray[j].checked) {
+                xuatAn    = xuatAnArray[j].value;
+            }
+        }
+
+        var data1 = {
+            hoTen   : hoTen,
+            tuoi    : tuoi,
+            gioiTinh: gioiTinh,
+            hanhly  : hanhLy,
+            xuatan  : xuatAn
+        }
+
+        fetch('https://localhost:5001/api/khachhang', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data1) // body data type must match "Content-Type" header
+        });
+        setStatus(true); 
+    }
+
+    function HoanTat(e) {
+        e.preventDefault();
+        var soHieuCB = document.getElementById("sohieuchuyenbay").value;
+        var hoTen = document.getElementById("hoten").value;
+        var data2    = {
+            hoTenKH  : hoTen,
+            soHieuCB : soHieuCB
+        }
+
+        fetch('https://localhost:5001/api/relationship', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data2) // body data type must match "Content-Type" header
+        });
+
+        window.alert("Cảm ơn quý khách đã sử dụng dịch vụ của hãng!!!");
+        document.getElementById("hoten").value = null;
+        document.getElementById("tuoi").value = null;
+        document.getElementsByClassName("HanhLy")[0].value = "7kg";
+        document.getElementById("sohieuchuyenbay").value = null;
+    }
+
     return (
-        <div>
-            Check in trực tuyến
+        <div style = {{marginLeft: "25px"}}>
+            <h3>Vui lòng nhập thông tin</h3>
+             <form>
+                <span>
+                    <input style={{marginRight:"25px",width:"300px"}} id="hoten" type="text" placeholder="Họ và tên"/> 
+                    <input style={{width:"150px"}} id="tuoi" type="text" placeholder="Tuổi"/>
+                    <br></br>
+                    <span className="GioiTinh">
+                        <label>Giới tính</label>
+                        <input type="radio" name="gender" value="Nam" defaultChecked/>
+                        <label >Nam</label><br></br>
+                        <input style={{marginLeft:"65px"}} type="radio" name="gender" value="Nu"/>
+                        <label >Nữ</label> <br></br>
+                    </span>
+                    <br></br>
+                    <span className="XuatAn">
+                        <label>Xuất ăn</label>
+                        <input type="radio" name="XuatAn" value="Co" defaultChecked/>
+                        <label >Có</label><br></br>
+                        <input style={{marginLeft:"59px"}} type="radio" name="XuatAn" value="Khong"/>
+                        <label >Không</label> <br></br>
+                    </span>
+                    <br></br>
+                    <label style={{marginRight:"5px"}}>Hành lý</label>
+                    <select className="HanhLy" name="HanhLy">
+                        <option value="7kg">7kg</option>
+                        <option value="15kg">15kg</option>
+                        <option value="30kg">30kg</option>
+                    </select>
+                    <br></br>
+                    <div style={{display: status ? "block" : "none"}}>
+                        <p>Thông tin của bạn đã được ghi nhận. Vui lòng nhập mã chuyến bay để hoàn thành việc check-in</p>
+                        <input style={{width:"150px", marginTop: "15px"}} id="sohieuchuyenbay" type="text" placeholder="Số hiệu chuyến bay"/>
+                        <button style={{fontSize: "25px", marginTop:"25px", cursor:"pointer", display:"block"}} onClick = {(e) => HoanTat(e)}>Hoàn tất check-in</button>
+                    </div>
+                </span>
+                <button style={{fontSize: "25px", marginTop:"25px", cursor:"pointer", display: status ? "none" : "block"}} onClick = {(e) => CheckIn(e)}>Xác nhận thông tin</button>
+            </form>
         </div>
     )
 }
@@ -703,9 +834,103 @@ export function SearchInformation(){
 }
 
 export function BuyInsurance(){
+    var [status, Setstatus] = useState(false);
+    var [thongtindatcho, Setthongtindatcho] = useState([]);
+
+    async function getVeMayBay(MaDatCho) {
+        try{
+            const response = await fetch(`http://localhost:7000/DatCho/${MaDatCho}`);
+            const json = await response.json();
+            Setthongtindatcho(json);
+          }
+          catch{
+            console.log("Lỗi URL");
+        }
+    }
+
+    async function createThongTinMuaBaoHiem(data = {}) {
+        // Default options are marked with *
+        const response = await fetch('http://localhost:8000/BaoHiem', {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    const TraCuu = (e) => {
+        e.preventDefault();
+        var MaDatCho = document.getElementById("MaDatCho").value;
+        if (MaDatCho === '') {
+            window.alert('Qúy khách chưa nhập mã đặt chỗ!')
+            return;
+        }
+        getVeMayBay(MaDatCho);
+    }
+
+    const DongYMua = (e) => {
+        e.preventDefault();
+        if (thongtindatcho.length < 1) {
+            window.alert("Bạn chưa nhập mã đặt chỗ!!!");
+            return;
+        }
+        var ThongTinMuaBaoHiem = {};
+        ThongTinMuaBaoHiem.MaDatCho     = thongtindatcho[0].MaDatCho;
+        ThongTinMuaBaoHiem.TenHanhKhach = thongtindatcho[0].Kh1.HoTen;
+        ThongTinMuaBaoHiem.GiaBaoHiem   = 59000 * (Object.keys(thongtindatcho[0]).length - 5);
+        createThongTinMuaBaoHiem(ThongTinMuaBaoHiem);
+
+        window.alert("Chức mừng bạn đã mua bảo hiểm thành công!");
+    }
+
     return (
-        <div>
-            Mua bảo hiểm
+        <div style = {{width:"95%", margin:"auto"}}>
+           <h2 style = {{color:"red"}}>Vietjet TravelCare</h2>
+           <p>Hãng hàng không Vietjet luôn quan tâm và thấu hiểu khách hàng, luôn mong muốn Quý khách có một chuyến đi tốt đẹp. Một chuyến đi mà Quý khách sẽ không phải lo lắng gì trong suốt hành trình. Cho dù là một chuyến du lịch hay công tác, bảo hiểm du lịch phù hợp sẽ là một yếu tố quan trọng mà Quý khách không nên bỏ qua.</p>
+           <br></br>
+           <p>Với Vietjet TravelCare, Quý khách hoàn toàn có thể yên tâm khi đã được bảo vệ tốt nhất trước những trở ngại trong chuyến đi như tai nạn, mất hành lý hoặc giấy tờ tùy thân, bị hủy chuyến bay và những trở ngại khác. Bảo hiểm du lịch Vietjet TravelCare do Công ty TNHH Bảo hiểm Chubb Việt Nam cung cấp tại vietjetair.com</p>
+           <br></br>
+           <p>Để biết thêm thông tin về phạm vi, quyền lợi và hợp đồng bảo hiểm, vui lòng chọn:</p>
+           <p>Vietjet TravelCare <span style={{color:"blue"}}>Tóm tắt Quyền lợi Bảo hiểm</span></p>
+           <p>Vietjet TravelCare <span style={{color:"blue"}}>Tuyên bố</span></p>
+           <p>Vietjet TravelCare <span style={{color:"blue"}}>Hợp đồng Bảo hiểm</span></p>
+           <p>Nội địa: <span style={{color:"blue"}}>Một chiều</span> | <span style={{color:"blue"}}>Khứ hồi</span></p>
+           <p>Quốc tế: <span style={{color:"blue"}}>Một chiều</span> | <span style={{color:"blue"}}>Khứ hồi</span></p>
+           <br></br>
+           <p>Chọn mua thêm Bảo hiểm Vietjet TravelCare giá chỉ <span style={{color:"red"}}> từ 59,000 đồng/ chiều</span></p>
+           <button style = {{fontSize:"25px", cursor: "pointer"}} onClick = {() => Setstatus(preStatus => !preStatus)}>{status ? "Không mua" : "Mua ngay"}</button>
+           <div style={{display:status ? "block" : "none"}}>
+                <form style = {{marginTop:"10px"}}>
+                        <label style = {{marginRight:"5px"}}>Nhập mã đặt chỗ:</label>
+                        <input type="text" id = "MaDatCho"/>
+                        <button id = "TraCuu" onClick={(e) => TraCuu(e)}>Tra cứu</button>
+                </form>
+                <div style= {{marginTop: "15px"}}>
+                    <div>
+                        <span>Mã chuyến bay của bạn:</span>
+                        <span style = {{marginLeft:"20px", color:"red"}}>{thongtindatcho.length > 0 ? thongtindatcho[0].MaChuyenBay : null}</span>
+                    </div>
+                    <div>
+                        <span>Số hành khách:</span>
+                        <span style = {{marginLeft:"20px", color:"red"}}>{thongtindatcho.length > 0 ? Object.keys(thongtindatcho[0]).length - 5 : null}</span>
+                    </div>
+                    <div>
+                        <span>Giá bảo hiểm:</span>
+                        <span style = {{marginLeft:"20px", color:"red"}}>{thongtindatcho.length > 0 ? 59000 * (Object.keys(thongtindatcho[0]).length - 5) : 0} VND</span>
+                    </div>
+                    <button style = {{fontSize:"25px", cursor: "pointer", marginTop:"10px"}} onClick = {(e) => DongYMua(e)}>Đồng ý mua</button>
+                </div>
+            </div>
+           <p>Quý khách có thể nộp hồ sơ yêu cầu bồi thường trực tuyến tại đây hoặc gửi thư điện tử tới Chubb theo địa chỉ <span style={{color:"red"}}>travelclaims.VN@chubb.com</span> để được hỗ trợ.</p>
+           
         </div>
     )
 }

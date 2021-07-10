@@ -5,6 +5,7 @@ use Src\Controller\SanBayController;
 use Src\Controller\DiaDiemController;
 use Src\Controller\ChuyenXeController;
 use Src\Controller\DatXeController;
+use Src\Controller\BaoHiemController;
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: *');
@@ -29,6 +30,7 @@ $ChuyenXeId         = null;
 $OptionSanBayId     = null;
 $OptionDiaDiemId    = null;
 $MaDatXe            = null;
+$MaDatCho           = null;
 
 switch($uri[1]){
     case 'ChuyenBay': {
@@ -69,6 +71,14 @@ switch($uri[1]){
             $MaDatXe = $uri[2];
         }
         $controller = new DatXeController($dbConnection, $requestMethod, $MaDatXe);
+        break;
+    }
+    case 'BaoHiem': {
+        if (isset($uri[2])){
+            
+            $MaDatCho = $uri[2];
+        }
+        $controller = new BaoHiemController($dbConnection, $requestMethod, $MaDatCho);
         break;
     }
     default: {
